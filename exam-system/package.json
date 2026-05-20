@@ -1,0 +1,15 @@
+{
+  "name": "env-monitoring-exam-system",
+  "version": "1.0.0",
+  "description": "河南省生态环境厅环境监测工勤技能考试系统",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "import": "node data/parse-questions.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}
