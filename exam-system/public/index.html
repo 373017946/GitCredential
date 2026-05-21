@@ -5,123 +5,1148 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>河南省生态环境厅环境监测工勤技能考试系统</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; }
-    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-    header { background: linear-gradient(135deg, #1b5e20, #2e7d32, #43a047); color: white; padding: 25px 30px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; justify-content: space-between; align-items: center; }
-    header .title-area h1 { font-size: 24px; margin-bottom: 5px; }
-    header .title-area p { opacity: 0.9; font-size: 13px; }
-    header .back-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; }
-    header .back-btn:hover { background: rgba(255,255,255,0.3); }
-    .clear-cache-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; margin-left: 10px; }
-    .clear-cache-btn:hover { background: rgba(255,255,255,0.3); }
-    .clear-cache-btn.danger { background: rgba(244,67,54,0.8); }
-    .clear-cache-btn.danger:hover { background: #d32f2f; }
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-    .stat-card { background: white; padding: 18px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .stat-card h3 { color: #666; font-size: 12px; margin-bottom: 5px; }
-    .stat-card .number { font-size: 28px; font-weight: bold; color: #2e7d32; }
-    .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .card h2 { color: #333; margin-bottom: 20px; font-size: 18px; border-bottom: 3px solid #4caf50; padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-    .btn { display: inline-block; padding: 10px 24px; background: #4caf50; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 15px; transition: all 0.2s; }
-    .btn:hover { background: #2e7d32; transform: translateY(-1px); }
-    .btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-    .btn-outline { background: white; color: #4caf50; border: 2px solid #4caf50; }
-    .btn-outline:hover { background: #e8f5e9; }
-    .btn-danger { background: #f44336; }
-    .btn-danger:hover { background: #d32f2f; }
-    .btn-small { padding: 6px 14px; font-size: 13px; }
-    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    .feature-item { padding: 20px; background: #f9f9f9; border-radius: 10px; text-align: center; transition: all 0.2s; }
-    .feature-item:hover { background: #e8f5e9; transform: translateY(-2px); }
-    .feature-item h3 { color: #333; margin-bottom: 8px; font-size: 16px; }
-    .feature-item p { color: #666; font-size: 13px; margin-bottom: 15px; }
-    .exam-config { margin-top: 20px; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; margin-bottom: 6px; color: #555; font-weight: 500; }
-    .form-group select, .form-group input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: border-color 0.2s; }
-    .form-group select:focus, .form-group input:focus { outline: none; border-color: #4caf50; }
-    .question-container { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .question-header { display: flex; justify-content: space-between; margin-bottom: 15px; color: #666; font-size: 13px; }
-    .question-header .tag { padding: 4px 10px; border-radius: 4px; background: #e8f5e9; color: #2e7d32; }
-    .question-header .subject { padding: 4px 10px; border-radius: 4px; background: #fff3e0; color: #e65100; }
-    .timer { font-size: 22px; color: #d32f2f; font-weight: bold; text-align: center; margin-bottom: 15px; padding: 10px; background: #ffebee; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
-    .timer .time { flex: 1; }
-    .timer .end-btn { background: #f44336; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; }
-    .progress-bar { height: 8px; background: #e0e0e0; border-radius: 4px; margin: 15px 0; overflow: hidden; }
-    .progress-bar .fill { height: 100%; background: linear-gradient(90deg, #4caf50, #81c784); transition: width 0.3s; border-radius: 4px; }
-    .progress-info { display: flex; justify-content: space-between; color: #666; font-size: 13px; margin-bottom: 10px; }
-    .question-content { font-size: 17px; line-height: 1.7; margin-bottom: 20px; color: #222; }
-    .options { list-style: none; }
-    .options li { padding: 14px 16px; margin-bottom: 10px; background: #f9f9f9; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; font-size: 15px; }
-    .options li:hover { background: #e8f5e9; border-color: #81c784; }
-    .options li.selected { border-color: #4caf50; background: #e8f5e9; }
-    .options li.exam-selected { border-color: #f5c842; background: #fffde7; }
-    .options li.correct { border-color: #4caf50; background: #c8e6c9; }
-    .options li.wrong { border-color: #f44336; background: #ffcdd2; }
-    .options li.disabled { pointer-events: none; }
-    .feedback-panel { padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center; font-size: 15px; display: none; }
-    .feedback-panel.correct { background: #e8f5e9; color: #2e7d32; border: 2px solid #4caf50; }
-    .feedback-panel.wrong { background: #ffebee; color: #c62828; border: 2px solid #f44336; }
-    .feedback-panel .answer-display { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
-    .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; gap: 10px; }
-    .nav-buttons .btn-group { display: flex; gap: 10px; }
-    .result { text-align: center; padding: 30px; }
-    .result .score { font-size: 64px; font-weight: bold; background: linear-gradient(135deg, #4caf50, #81c784); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .result .total { color: #666; font-size: 16px; margin-top: 10px; }
-    .result .pass-status { font-size: 20px; margin-top: 15px; padding: 8px 20px; border-radius: 20px; display: inline-block; }
-    .result .pass-status.pass { background: #e8f5e9; color: #2e7d32; }
-    .result .pass-status.fail { background: #ffebee; color: #f44336; }
-    .history-list { margin-top: 15px; }
-    .history-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f9f9f9; border-radius: 8px; margin-bottom: 10px; }
-    .history-item .info { flex: 1; }
-    .history-item .info h4 { color: #333; margin-bottom: 5px; }
-    .history-item .info p { color: #666; font-size: 13px; }
-    .history-item .score-badge { font-size: 24px; font-weight: bold; padding: 10px 20px; border-radius: 8px; }
-    .history-item .score-badge.high { background: #e8f5e9; color: #2e7d32; }
-    .history-item .score-badge.low { background: #ffebee; color: #f44336; }
-    .review-container { margin-top: 20px; }
-    .review-item { padding: 15px; background: #f9f9f9; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid #4caf50; }
-    .review-item.wrong { border-left-color: #f44336; }
-    .review-item .q-content { font-size: 15px; margin-bottom: 10px; line-height: 1.6; }
-    .review-item .q-result { display: flex; gap: 15px; font-size: 13px; flex-wrap: wrap; }
-    .review-item .your { color: #f44336; }
-    .review-item .correct { color: #4caf50; }
-    .empty-state { text-align: center; padding: 40px; color: #999; }
-    .empty-state h3 { margin-bottom: 10px; color: #666; }
-    .actions { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
-    .wrong-count-badge { background: #f44336; color: white; padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: 8px; }
-    .answer-card { margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 10px; }
-    .answer-card h3 { font-size: 14px; color: #666; margin-bottom: 10px; }
-    .answer-card-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; }
-    .answer-card-item { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
-    .answer-card-item.unanswered { background: #bbdefb; color: #1565c0; border-color: #64b5f6; }
-    .answer-card-item.answered { background: #ef9a9a; color: #c62828; border-color: #e57373; }
-    .answer-card-item.current { border-color: #4caf50; box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3); }
-    .answer-card-item:hover { transform: scale(1.1); }
-    @media (max-width: 600px) {
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .grid { grid-template-columns: 1fr; }
-      .nav-buttons { flex-direction: column; }
-      header { flex-direction: column; gap: 15px; text-align: center; }
+    /* ============================================
+       CSS Variables - 科技感深蓝/绿色调配色系统
+       ============================================ */
+    :root {
+      /* 主色系 - 绿色渐变 */
+      --color-primary-dark: #0d3d16;
+      --color-primary: #1b5e20;
+      --color-primary-light: #2e7d32;
+      --color-primary-lighter: #43a047;
+      --color-primary-glow: rgba(67, 160, 71, 0.3);
+
+      /* 辅助色 - 深蓝 */
+      --color-secondary: #1565c0;
+      --color-secondary-light: #1976d2;
+      --color-secondary-dark: #0d47a1;
+
+      /* 背景色 */
+      --color-bg: #f0f2f5;
+      --color-bg-dark: #e8ecf0;
+      --color-card: #ffffff;
+      --color-card-hover: #f8faf8;
+
+      /* 状态色 */
+      --color-success: #4caf50;
+      --color-success-light: #81c784;
+      --color-success-bg: #e8f5e9;
+      --color-error: #f44336;
+      --color-error-light: #e57373;
+      --color-error-bg: #ffebee;
+      --color-warning: #ff9800;
+      --color-warning-bg: #fff3e0;
+
+      /* 文字色 */
+      --color-text: #1a1a1a;
+      --color-text-secondary: #555555;
+      --color-text-muted: #888888;
+      --color-text-light: #ffffff;
+
+      /* 边框色 */
+      --color-border: #e0e0e0;
+      --color-border-light: #eeeeee;
+
+      /* 阴影 */
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+      --shadow-primary: 0 4px 16px rgba(27, 94, 32, 0.25);
+
+      /* 圆角 */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+
+      /* 过渡 */
+      --transition-fast: 0.15s ease;
+      --transition-normal: 0.25s ease;
+      --transition-slow: 0.35s ease;
+    }
+
+    /* ============================================
+       Base Styles - 基础样式重置
+       ============================================ */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ============================================
+       Container - 容器布局
+       ============================================ */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* ============================================
+       Header - 顶部导航栏
+       ============================================ */
+    .app-header {
+      background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 50%, var(--color-primary-light) 100%);
+      color: var(--color-text-light);
+      padding: 24px 30px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .app-header .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .app-header .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .app-header .title-area h1 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .app-header .title-area p {
+      font-size: 13px;
+      opacity: 0.85;
+      letter-spacing: 0.3px;
+    }
+
+    .app-header .header-actions {
+      display: flex;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-header .header-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: var(--color-text-light);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 13px;
+      transition: all var(--transition-fast);
+      backdrop-filter: blur(4px);
+    }
+
+    .app-header .header-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .app-header .header-btn.danger {
+      background: rgba(244, 67, 54, 0.7);
+      border-color: rgba(244, 67, 54, 0.8);
+    }
+
+    .app-header .header-btn.danger:hover {
+      background: var(--color-error);
+    }
+
+    .header-back-btn {
+      display: none;
+    }
+
+    /* ============================================
+       Stats Cards - 统计卡片组
+       ============================================ */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--color-card);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-normal);
+      border: 1px solid var(--color-border-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-primary-lighter));
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-card h3 {
+      color: var(--color-text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .stat-card .number {
+      font-size: 32px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-card .number.blue {
+      background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ============================================
+       Card - 通用卡片组件
+       ============================================ */
+    .card {
+      background: var(--color-card);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border-light);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--color-border-light);
+    }
+
+    .card-header .card-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--color-text-light);
+    }
+
+    .card-header h2 {
+      color: var(--color-text);
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* ============================================
+       Grid - 网格布局
+       ============================================ */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    /* ============================================
+       Feature Item - 功能入口卡片
+       ============================================ */
+    .feature-item {
+      padding: 24px;
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      text-align: center;
+      transition: all var(--transition-normal);
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .feature-item:hover {
+      background: var(--color-card-hover);
+      border-color: var(--color-primary-lighter);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-item .feature-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 0 auto 14px;
+      color: var(--color-text-light);
+      box-shadow: 0 4px 12px rgba(27, 94, 32, 0.3);
+    }
+
+    .feature-item h3 {
+      color: var(--color-text);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature-item p {
+      color: var(--color-text-secondary);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    /* ============================================
+       Buttons - 按钮样式
+       ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      color: var(--color-text-light);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all var(--transition-fast);
+      box-shadow: 0 2px 8px rgba(27, 94, 32, 0.25);
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-lighter) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(27, 94, 32, 0.35);
+    }
+
+    .btn:disabled {
+      background: #bdbdbd;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-outline {
+      background: var(--color-card);
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--color-success-bg);
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, var(--color-error) 0%, #e53935 100%);
+    }
+
+    .btn-danger:hover {
+      background: linear-gradient(135deg, #e53935 0%, var(--color-error) 100%);
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      justify-content: center;
+    }
+
+    /* ============================================
+       Form Elements - 表单元素
+       ============================================ */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--color-text);
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .form-group select,
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      transition: all var(--transition-fast);
+      background: var(--color-card);
+      color: var(--color-text);
+    }
+
+    .form-group select:focus,
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-glow);
+    }
+
+    /* ============================================
+       Question Container - 答题容器
+       ============================================ */
+    .question-container {
+      background: var(--color-card);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-border-light);
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .question-header .tag {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--color-success-bg);
+      color: var(--color-primary);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .question-header .subject {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      background: #e3f2fd;
+      color: var(--color-secondary);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* ============================================
+       Progress Bar - 进度条
+       ============================================ */
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      color: var(--color-text-secondary);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--color-bg-dark);
+      border-radius: 4px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar .fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-lighter) 50%, var(--color-success) 100%);
+      transition: width 0.4s ease;
+      border-radius: 4px;
+    }
+
+    /* ============================================
+       Timer - 计时器
+       ============================================ */
+    .timer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 18px;
+      padding: 14px 20px;
+      background: var(--color-error-bg);
+      border-radius: var(--radius-md);
+      border: 2px solid var(--color-error);
+    }
+
+    .timer.warning {
+      background: var(--color-warning-bg);
+      border-color: var(--color-warning);
+      color: var(--color-warning);
+    }
+
+    .timer .time {
+      flex: 1;
+      font-size: 24px;
+      letter-spacing: 2px;
+    }
+
+    .timer .end-btn {
+      background: var(--color-error);
+      color: var(--color-text-light);
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all var(--transition-fast);
+    }
+
+    .timer .end-btn:hover {
+      background: #d32f2f;
+      transform: scale(1.05);
+    }
+
+    /* ============================================
+       Question Content - 题目内容
+       ============================================ */
+    .question-content {
+      font-size: 17px;
+      line-height: 1.8;
+      margin-bottom: 22px;
+      color: var(--color-text);
+      padding: 16px;
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      border-left: 4px solid var(--color-primary);
+    }
+
+    /* ============================================
+       Options List - 选项列表
+       ============================================ */
+    .options {
+      list-style: none;
+    }
+
+    .options li {
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      border: 2px solid transparent;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .options li::before {
+      content: '';
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      transition: all var(--transition-fast);
+    }
+
+    .options li.option-A::before { content: 'A'; }
+    .options li.option-B::before { content: 'B'; }
+    .options li.option-C::before { content: 'C'; }
+    .options li.option-D::before { content: 'D'; }
+    .options li.option-E::before { content: 'E'; }
+
+    .options li.true_false::before,
+    .options li.option-true::before { content: '√'; border-radius: var(--radius-sm); }
+    .options li.false_answer::before,
+    .options li.option-false::before { content: '×'; border-radius: var(--radius-sm); }
+
+    .options li:hover {
+      background: var(--color-card-hover);
+      border-color: var(--color-primary-lighter);
+      transform: translateX(4px);
+    }
+
+    .options li.selected {
+      border-color: var(--color-primary);
+      background: var(--color-success-bg);
+    }
+
+    .options li.selected::before {
+      background: var(--color-primary);
+      color: var(--color-text-light);
+      border-color: var(--color-primary);
+    }
+
+    .options li.exam-selected {
+      border-color: var(--color-warning);
+      background: #fff8e1;
+    }
+
+    .options li.correct {
+      border-color: var(--color-success);
+      background: var(--color-success-bg);
+    }
+
+    .options li.correct::before {
+      background: var(--color-success);
+      color: var(--color-text-light);
+      border-color: var(--color-success);
+    }
+
+    .options li.wrong {
+      border-color: var(--color-error);
+      background: var(--color-error-bg);
+    }
+
+    .options li.wrong::before {
+      background: var(--color-error);
+      color: var(--color-text-light);
+      border-color: var(--color-error);
+    }
+
+    .options li.disabled {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    /* ============================================
+       Selected Answer Display - 已选答案显示
+       ============================================ */
+    #selected-answer-display {
+      margin-bottom: 18px;
+      padding: 14px 18px;
+      background: var(--color-success-bg);
+      border-radius: var(--radius-md);
+      color: var(--color-primary);
+      font-size: 15px;
+      display: none;
+      border: 2px solid var(--color-primary);
+    }
+
+    #selected-answer-display.exam-mode {
+      background: #fff8e1;
+      border-color: var(--color-warning);
+      color: #e65100;
+    }
+
+    /* ============================================
+       Feedback Panel - 答题反馈面板
+       ============================================ */
+    .feedback-panel {
+      padding: 18px;
+      border-radius: var(--radius-md);
+      margin-top: 18px;
+      text-align: center;
+      font-size: 15px;
+      display: none;
+    }
+
+    .feedback-panel.correct {
+      background: var(--color-success-bg);
+      color: var(--color-primary);
+      border: 2px solid var(--color-success);
+    }
+
+    .feedback-panel.wrong {
+      background: var(--color-error-bg);
+      color: var(--color-error);
+      border: 2px solid var(--color-error);
+    }
+
+    .feedback-panel .answer-display {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    /* ============================================
+       Answer Card - 答题卡
+       ============================================ */
+    .answer-card {
+      margin-top: 24px;
+      padding: 20px;
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
+    }
+
+    .answer-card h3 {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .answer-card-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 10px;
+    }
+
+    .answer-card-item {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      border: 2px solid transparent;
+    }
+
+    .answer-card-item.unanswered {
+      background: #bbdefb;
+      color: var(--color-secondary);
+      border-color: #64b5f6;
+    }
+
+    .answer-card-item.answered {
+      background: #ef9a9a;
+      color: var(--color-error);
+      border-color: var(--color-error-light);
+    }
+
+    .answer-card-item.current {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-glow);
+      transform: scale(1.1);
+    }
+
+    .answer-card-item:hover {
+      transform: scale(1.15);
+    }
+
+    .answer-card-legend {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      display: flex;
+      gap: 24px;
+    }
+
+    .answer-card-legend span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .answer-card-legend span::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .answer-card-legend .unanswered::before {
+      background: #bbdefb;
+    }
+
+    .answer-card-legend .answered::before {
+      background: #ef9a9a;
+    }
+
+    /* ============================================
+       Navigation Buttons - 导航按钮
+       ============================================ */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+      gap: 16px;
+    }
+
+    .nav-buttons .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* ============================================
+       Result Page - 结果页面
+       ============================================ */
+    .result {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .result .score {
+      font-size: 72px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-lighter) 50%, var(--color-success) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .result .total {
+      color: var(--color-text-secondary);
+      font-size: 17px;
+      margin-top: 8px;
+      margin-bottom: 16px;
+    }
+
+    .result .pass-status {
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 12px;
+      padding: 10px 28px;
+      border-radius: var(--radius-xl);
+      display: inline-block;
+    }
+
+    .result .pass-status.pass {
+      background: var(--color-success-bg);
+      color: var(--color-primary);
+    }
+
+    .result .pass-status.fail {
+      background: var(--color-error-bg);
+      color: var(--color-error);
+    }
+
+    .result .wrong-info {
+      margin-top: 20px;
+      color: var(--color-text-secondary);
+      font-size: 14px;
+    }
+
+    /* ============================================
+       History List - 历史记录列表
+       ============================================ */
+    .history-list {
+      margin-top: 16px;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px;
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      transition: all var(--transition-fast);
+    }
+
+    .history-item:hover {
+      background: var(--color-card-hover);
+      transform: translateX(4px);
+    }
+
+    .history-item .info {
+      flex: 1;
+    }
+
+    .history-item .info h4 {
+      color: var(--color-text);
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .history-item .info p {
+      color: var(--color-text-secondary);
+      font-size: 13px;
+    }
+
+    .history-item .score-badge {
+      font-size: 26px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+    }
+
+    .history-item .score-badge.high {
+      background: var(--color-success-bg);
+      color: var(--color-primary);
+    }
+
+    .history-item .score-badge.low {
+      background: var(--color-error-bg);
+      color: var(--color-error);
+    }
+
+    /* ============================================
+       Review Container - 答案解析
+       ============================================ */
+    .review-container {
+      margin-top: 20px;
+    }
+
+    .review-item {
+      padding: 18px;
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      margin-bottom: 14px;
+      border-left: 4px solid var(--color-success);
+    }
+
+    .review-item.wrong {
+      border-left-color: var(--color-error);
+    }
+
+    .review-item .q-content {
+      font-size: 15px;
+      margin-bottom: 12px;
+      line-height: 1.7;
+    }
+
+    .review-item .q-result {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+      flex-wrap: wrap;
+    }
+
+    .review-item .your {
+      color: var(--color-error);
+    }
+
+    .review-item .correct {
+      color: var(--color-success);
+      font-weight: 500;
+    }
+
+    .review-item .status {
+      font-weight: 600;
+    }
+
+    .review-item .status.correct {
+      color: var(--color-success);
+    }
+
+    .review-item .status.wrong {
+      color: var(--color-error);
+    }
+
+    /* ============================================
+       Empty State - 空状态
+       ============================================ */
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--color-text-muted);
+    }
+
+    .empty-state .empty-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--color-bg-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 20px;
+    }
+
+    .empty-state h3 {
+      color: var(--color-text-secondary);
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+    }
+
+    /* ============================================
+       Badge - 徽章
+       ============================================ */
+    .wrong-count-badge {
+      display: inline-block;
+      background: var(--color-error);
+      color: var(--color-text-light);
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+
+    /* ============================================
+       Loading State - 加载状态
+       ============================================ */
+    .loading-state {
+      text-align: center;
+      padding: 30px;
+      color: var(--color-text-secondary);
+      display: none;
+    }
+
+    .loading-state::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--color-border);
+      border-top-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ============================================
+       Responsive Design - 响应式设计
+       ============================================ */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .stat-card .number {
+        font-size: 26px;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .app-header {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .app-header .header-left {
+        flex-direction: column;
+      }
+
+      .answer-card-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .nav-buttons {
+        flex-direction: column;
+      }
+
+      .nav-buttons .btn-group {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .nav-buttons .btn-group .btn {
+        width: 100%;
+      }
+
+      .result .score {
+        font-size: 56px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .answer-card-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .answer-card-item {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <header id="main-header">
-      <div class="title-area">
-        <h1>河南省生态环境厅环境监测工勤技能考试系统</h1>
-        <p>题库练习 / 模拟考试 / 成绩统计</p>
+    <!-- Header -->
+    <header class="app-header" id="main-header">
+      <div class="header-left">
+        <div class="logo-icon">📋</div>
+        <div class="title-area">
+          <h1>河南省生态环境厅环境监测工勤技能考试系统</h1>
+          <p>题库练习 / 模拟考试 / 成绩统计</p>
+        </div>
       </div>
-      <button class="back-btn" id="header-back-btn" onclick="goHome()" style="display: none;">← 返回首页</button>
-      <button class="clear-cache-btn" onclick="clearPartialCache()">清除部分缓存</button>
-      <button class="clear-cache-btn danger" onclick="clearAllCache()">清除所有缓存</button>
+      <div class="header-actions">
+        <button class="header-btn back-btn" id="header-back-btn" onclick="goHome()">← 返回首页</button>
+        <button class="header-btn" onclick="clearPartialCache()">清除部分缓存</button>
+        <button class="header-btn danger" onclick="clearAllCache()">清除所有缓存</button>
+      </div>
     </header>
 
-    <!-- 首页 -->
+    <!-- Home Page -->
     <div id="home-page">
-      <div class="stats">
+      <div class="stats-grid">
         <div class="stat-card">
           <h3>总题数</h3>
           <div class="number" id="total-count">-</div>
@@ -136,45 +1161,53 @@
         </div>
         <div class="stat-card">
           <h3>错题数</h3>
-          <div class="number" id="wrong-count">-</div>
+          <div class="number blue" id="wrong-count">-</div>
         </div>
       </div>
 
       <div class="card">
-        <h2>功能菜单</h2>
-        <div class="grid">
-          <div class="feature-item">
-            <h3>📝 在线刷题</h3>
+        <div class="card-header">
+          <div class="card-icon">🎯</div>
+          <h2>功能菜单</h2>
+        </div>
+        <div class="grid-2">
+          <div class="feature-item" onclick="showPractice()">
+            <div class="feature-icon">📝</div>
+            <h3>在线刷题</h3>
             <p>按分类练习题目，实时查看答案</p>
-            <button class="btn btn-outline" onclick="showPractice()">开始练习</button>
+            <button class="btn btn-outline">开始练习</button>
           </div>
-          <div class="feature-item">
-            <h3>📋 模拟考试</h3>
+          <div class="feature-item" onclick="showExam()">
+            <div class="feature-icon">📋</div>
+            <h3>模拟考试</h3>
             <p>随机组卷，计时考试</p>
-            <button class="btn btn-outline" onclick="showExam()">参加考试</button>
+            <button class="btn btn-outline">参加考试</button>
           </div>
-          <div class="feature-item">
-            <h3>📊 成绩统计</h3>
+          <div class="feature-item" onclick="showHistory()">
+            <div class="feature-icon">📊</div>
+            <h3>成绩统计</h3>
             <p>查看历史练习和考试成绩</p>
-            <button class="btn btn-outline" onclick="showHistory()">查看记录</button>
+            <button class="btn btn-outline">查看记录</button>
           </div>
-          <div class="feature-item">
-            <h3>📚 错题本 <span class="wrong-count-badge" id="wrong-badge" style="display:none;">0</span></h3>
+          <div class="feature-item" onclick="showWrongQuestions()">
+            <div class="feature-icon">📚</div>
+            <h3>错题本 <span class="wrong-count-badge" id="wrong-badge" style="display:none;">0</span></h3>
             <p>查看并练习做错的题目</p>
-            <button class="btn btn-outline" onclick="showWrongQuestions()">查看错题</button>
+            <button class="btn btn-outline">查看错题</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 刷题配置页面 -->
+    <!-- Practice Page -->
     <div id="practice-page" style="display: none;">
       <div class="card">
-        <h2>📝 在线刷题</h2>
+        <div class="card-header">
+          <div class="card-icon">📝</div>
+          <h2>在线刷题</h2>
+        </div>
+        <div class="loading-state" id="practice-loading">加载中，请稍候...</div>
         <div class="exam-config">
-          <div id="practice-loading" style="text-align: center; padding: 20px; color: #666; display: none;">
-            加载中...
-          </div>
           <div class="form-group">
             <label>题目类型</label>
             <select id="practice-type">
@@ -209,14 +1242,15 @@
       </div>
     </div>
 
-    <!-- 考试配置页面 -->
+    <!-- Exam Page -->
     <div id="exam-page" style="display: none;">
       <div class="card">
-        <h2>📋 模拟考试</h2>
+        <div class="card-header">
+          <div class="card-icon">📋</div>
+          <h2>模拟考试</h2>
+        </div>
+        <div class="loading-state" id="exam-loading">正在生成试卷，请稍候...</div>
         <div class="exam-config">
-          <div id="exam-loading" style="text-align: center; padding: 20px; color: #666; display: none;">
-            正在生成试卷，请稍候...
-          </div>
           <div class="form-group">
             <label>试卷题数</label>
             <select id="exam-count">
@@ -240,7 +1274,7 @@
       </div>
     </div>
 
-    <!-- 答题页面 -->
+    <!-- Question Page -->
     <div id="question-page" style="display: none;">
       <div class="question-container">
         <div class="progress-info">
@@ -252,7 +1286,7 @@
         </div>
         <div class="timer" id="exam-timer" style="display: none;">
           <span class="time" id="timer-display">00:00</span>
-          <span id="timer-warning" style="display:none; color: #ff0; font-size: 14px; margin-right: 10px;">剩余5分钟</span>
+          <span id="timer-warning" style="display:none; color: #ff9800; font-size: 14px; margin-right: 10px;">剩余5分钟</span>
           <button class="end-btn" onclick="confirmSubmitExam()">提前交卷</button>
         </div>
         <div class="question-header">
@@ -260,16 +1294,16 @@
           <span class="subject" id="question-subject">水和废水</span>
         </div>
         <div class="question-content" id="question-content">题目内容...</div>
-        <div id="selected-answer-display" style="margin-bottom: 15px; padding: 12px; background: #e8f5e9; border-radius: 8px; color: #2e7d32; font-size: 15px; display: none; border: 2px solid #4caf50;">
+        <div id="selected-answer-display">
           已选答案：<strong id="selected-answer-text"></strong>
         </div>
         <ul class="options" id="question-options"></ul>
         <div id="answer-card" class="answer-card" style="display: none;">
           <h3>答题卡</h3>
           <div class="answer-card-grid" id="answer-card-grid"></div>
-          <div style="margin-top: 10px; font-size: 12px; color: #666; display: flex; gap: 20px;">
-            <span><span style="display: inline-block; width: 16px; height: 16px; background: #bbdefb; border-radius: 3px; vertical-align: middle;"></span> 未答题</span>
-            <span><span style="display: inline-block; width: 16px; height: 16px; background: #ef9a9a; border-radius: 3px; vertical-align: middle;"></span> 已答题</span>
+          <div class="answer-card-legend">
+            <span class="unanswered">未答题</span>
+            <span class="answered">已答题</span>
           </div>
         </div>
         <div class="feedback-panel" id="feedback-panel">
@@ -280,22 +1314,22 @@
           <button class="btn btn-outline" id="prev-btn" onclick="prevQuestion()">← 上一题</button>
           <div class="btn-group">
             <button class="btn" id="next-btn" onclick="nextQuestion()">下一题 →</button>
-            <button class="btn" id="finish-btn" style="display: none; background: #4caf50;" onclick="finishPractice()">完成</button>
+            <button class="btn" id="finish-btn" style="display: none; background: var(--color-primary);" onclick="finishPractice()">完成</button>
             <button class="btn btn-danger" id="submit-exam-btn" style="display: none;" onclick="confirmSubmitExam()">交卷</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 结果页面 -->
+    <!-- Result Page -->
     <div id="result-page" style="display: none;">
       <div class="question-container">
         <div class="result">
-          <h2 id="result-title">练习完成！</h2>
-          <div class="score" id="result-score">0</div>
+          <h2 id="result-title" style="font-size: 24px; margin-bottom: 20px;">练习完成！</h2>
+          <div class="score" id="result-score">0%</div>
           <div class="total" id="result-total">共 0 题，正确 0 题</div>
           <div id="result-status" class="pass-status" style="display: none;">及格</div>
-          <div style="margin-top: 20px; color: #666;" id="result-wrong-info"></div>
+          <div class="wrong-info" id="result-wrong-info"></div>
           <div class="actions" style="margin-top: 30px;">
             <button class="btn" id="repractice-wrong-btn" onclick="repracticeWrongQuestions()">重做错题</button>
             <button class="btn" onclick="reviewResults()">查看答案</button>
@@ -305,11 +1339,14 @@
       </div>
     </div>
 
-    <!-- 历史记录页面 -->
+    <!-- History Page -->
     <div id="history-page" style="display: none;">
       <div class="card">
-        <h2>📊 成绩统计</h2>
-        <div class="stats" style="margin-bottom: 20px;">
+        <div class="card-header">
+          <div class="card-icon">📊</div>
+          <h2>成绩统计</h2>
+        </div>
+        <div class="stats-grid" style="margin-bottom: 20px;">
           <div class="stat-card">
             <h3>平均分</h3>
             <div class="number" id="avg-score">-</div>
@@ -334,12 +1371,15 @@
       </div>
     </div>
 
-    <!-- 答案解析页面 -->
+    <!-- Review Page -->
     <div id="review-page" style="display: none;">
       <div class="card">
-        <h2>📝 答案解析</h2>
-        <div style="margin-bottom: 15px; color: #666; font-size: 13px;">
-          共 <span id="review-total">0</span> 题，正确 <span id="review-correct" style="color:#4caf50;">0</span> 题，错误 <span id="review-wrong" style="color:#f44336;">0</span> 题
+        <div class="card-header">
+          <div class="card-icon">📝</div>
+          <h2>答案解析</h2>
+        </div>
+        <div style="margin-bottom: 18px; color: var(--color-text-secondary); font-size: 14px;">
+          共 <span id="review-total" style="font-weight: 600;">0</span> 题，正确 <span id="review-correct" style="color: var(--color-success); font-weight: 600;">0</span> 题，错误 <span id="review-wrong" style="color: var(--color-error); font-weight: 600;">0</span> 题
         </div>
         <div id="review-list"></div>
         <div class="actions">
@@ -349,10 +1389,13 @@
       </div>
     </div>
 
-    <!-- 错题本页面 -->
+    <!-- Wrong Questions Page -->
     <div id="wrong-page" style="display: none;">
       <div class="card">
-        <h2>📚 错题本 <span class="wrong-count-badge" id="wrong-page-badge">0</span></h2>
+        <div class="card-header">
+          <div class="card-icon">📚</div>
+          <h2>错题本 <span class="wrong-count-badge" id="wrong-page-badge">0</span></h2>
+        </div>
         <div id="wrong-list" class="history-list"></div>
         <div class="actions">
           <button class="btn" id="retry-wrong-btn" onclick="retryAllWrong()">重新练习全部错题</button>
@@ -395,13 +1438,12 @@
     let isExamMode = false;
     let currentResults = [];
     let wrongQuestionIds = [];
-    let sessionWrongIds = []; // 本次练习的错题ID
+    let sessionWrongIds = [];
     let currentUserId = getUserId();
 
     // 初始化
     async function init() {
       try {
-        // 尝试获取用户统计数据，如果失败则使用全局统计
         let data;
         try {
           const res = await fetch(`${API_BASE}/user/${currentUserId}/statistics`);
@@ -411,7 +1453,6 @@
             throw new Error('User stats not available');
           }
         } catch (e) {
-          // 使用全局统计
           const res = await fetch(`${API_BASE}/statistics`);
           data = await res.json();
         }
@@ -421,7 +1462,6 @@
         document.getElementById('choice-count').textContent = data.byType.choice;
         document.getElementById('wrong-count').textContent = data.historySummary?.totalWrongCount || 0;
 
-        // 更新错题本角标
         await updateWrongBadge();
       } catch (e) {
         console.error('Failed to load stats:', e);
@@ -433,7 +1473,6 @@
         const res = await fetch(`${API_BASE}/user/${currentUserId}/history?limit=100`);
         if (!res.ok) throw new Error('Failed');
         const data = await res.json();
-        // 计算所有错题
         let totalWrong = 0;
         data.data.forEach(r => {
           if (r.wrongCount) totalWrong += r.wrongCount;
@@ -446,7 +1485,6 @@
           badge.style.display = 'none';
         }
       } catch (e) {
-        // 降级到全局历史
         try {
           const res = await fetch(`${API_BASE}/history?limit=100`);
           const data = await res.json();
@@ -465,22 +1503,18 @@
       }
     }
 
-    // 清除部分缓存（只清除历史记录，保留错题）
     function clearPartialCache() {
       if (!confirm('确定要清除部分缓存吗？\n\n这将清除所有历史练习和考试记录，但保留错题。')) return;
       localStorage.removeItem('exam_history');
       localStorage.removeItem('practice_records');
-      // 清除服务器的记录
       fetch(`${API_BASE}/history/clear`, { method: 'POST' }).catch(() => {});
       alert('部分缓存已清除');
       init();
     }
 
-    // 清除所有缓存
     function clearAllCache() {
       if (!confirm('确定要清除所有缓存吗？\n\n这将清除所有数据，包括历史记录和错题。')) return;
       localStorage.clear();
-      // 清除服务器的所有数据
       fetch(`${API_BASE}/cache/clear-all`, { method: 'POST' }).catch(() => {});
       alert('所有缓存已清除');
       init();
@@ -493,7 +1527,7 @@
     }
 
     function showHeaderBackBtn(show) {
-      document.getElementById('header-back-btn').style.display = show ? 'block' : 'none';
+      document.getElementById('header-back-btn').style.display = show ? 'inline-block' : 'none';
     }
 
     function goHome() {
@@ -533,7 +1567,6 @@
       if (type) url += `&type=${type}`;
       if (subject) url += `&subject=${subject}`;
 
-      // 显示加载状态
       document.getElementById('practice-loading').style.display = 'block';
       document.getElementById('practice-start-btn').disabled = true;
 
@@ -567,7 +1600,6 @@
     async function startExam() {
       const count = document.getElementById('exam-count').value;
 
-      // 显示加载状态
       document.getElementById('exam-loading').style.display = 'block';
       document.getElementById('exam-start-btn').disabled = true;
 
@@ -614,27 +1646,26 @@
       document.getElementById('timer-display').textContent =
         `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-      // 获取用户选择的考试时长
       const examDurationSelect = document.getElementById('exam-duration');
       const selectedDuration = examDurationSelect ? parseInt(examDurationSelect.value) : 60;
       const totalSeconds = selectedDuration * 60;
       const remaining = totalSeconds - elapsed;
 
-      // 显示剩余5分钟警告
       const warning = document.getElementById('timer-warning');
+      const timer = document.getElementById('exam-timer');
       if (remaining <= 300 && remaining > 0) {
         warning.style.display = 'inline';
         warning.textContent = `剩余${Math.ceil(remaining / 60)}分钟`;
+        timer.classList.add('warning');
       } else {
         warning.style.display = 'none';
+        timer.classList.remove('warning');
       }
 
-      // 时间到自动交卷
       if (remaining <= 0) {
         clearInterval(examTimer);
         examTimer = null;
         alert('考试时间到，系统将自动交卷！');
-        // 将所有已答的题目标记为已确定
         for (let i = 0; i < currentQuestions.length; i++) {
           if (userAnswers[i]) {
             answeredQuestions.add(i);
@@ -644,7 +1675,6 @@
       }
     }
 
-    // 渲染答题卡
     function renderAnswerCard() {
       const grid = document.getElementById('answer-card-grid');
       grid.innerHTML = '';
@@ -653,19 +1683,16 @@
         item.className = 'answer-card-item';
         item.textContent = i + 1;
 
-        // 已答题目标记为红色，未答为淡蓝色
         if (answeredQuestions.has(i)) {
           item.classList.add('answered');
         } else {
           item.classList.add('unanswered');
         }
 
-        // 当前题目高亮
         if (i === currentIndex) {
           item.classList.add('current');
         }
 
-        // 点击跳转到对应题目
         item.onclick = () => {
           currentIndex = i;
           showQuestion();
@@ -689,11 +1716,9 @@
       const optionsEl = document.getElementById('question-options');
       optionsEl.innerHTML = '';
 
-      // 检查是否已答过这道题（已确定答案）
       const previousAnswer = userAnswers[currentIndex];
       const alreadyAnswered = answeredQuestions.has(currentIndex);
 
-      // 显示当前已选答案
       const selectedDisplay = document.getElementById('selected-answer-display');
       const selectedText = document.getElementById('selected-answer-text');
       if (previousAnswer) {
@@ -706,19 +1731,15 @@
         }
         selectedText.textContent = answerLabel;
         selectedDisplay.style.display = 'block';
-        // 考试模式显示淡黄色背景
         if (isExamMode && !alreadyAnswered) {
-          selectedDisplay.style.background = '#fffde7';
-          selectedDisplay.style.borderColor = '#f5c842';
+          selectedDisplay.classList.add('exam-mode');
         } else {
-          selectedDisplay.style.background = '#e8f5e9';
-          selectedDisplay.style.borderColor = '#4caf50';
+          selectedDisplay.classList.remove('exam-mode');
         }
       } else {
         selectedDisplay.style.display = 'none';
       }
 
-      // 显示答题卡（考试模式）
       const answerCard = document.getElementById('answer-card');
       if (isExamMode) {
         answerCard.style.display = 'block';
@@ -731,10 +1752,10 @@
         ['true', 'false'].forEach((val) => {
           const label = val === 'true' ? '正确' : '错误';
           const li = document.createElement('li');
+          li.className = val === 'true' ? 'option-true' : 'option-false';
           li.textContent = label;
           li.onclick = () => selectOption(val);
           if (previousAnswer === val) {
-            // 考试模式未确定答案时显示淡黄色
             if (isExamMode && !alreadyAnswered) {
               li.classList.add('exam-selected');
             } else {
@@ -750,10 +1771,10 @@
         const labels = ['A', 'B', 'C', 'D', 'E'];
         (q.options || []).forEach((opt, idx) => {
           const li = document.createElement('li');
+          li.className = `option-${labels[idx]}`;
           li.textContent = `${labels[idx]}. ${opt}`;
           li.onclick = () => selectOption(labels[idx]);
           if (previousAnswer === labels[idx]) {
-            // 考试模式未确定答案时显示淡黄色
             if (isExamMode && !alreadyAnswered) {
               li.classList.add('exam-selected');
             } else {
@@ -769,7 +1790,6 @@
 
       document.getElementById('prev-btn').disabled = currentIndex === 0;
 
-      // 最后一题按钮
       if (currentIndex === currentQuestions.length - 1) {
         if (isExamMode) {
           document.getElementById('next-btn').style.display = 'none';
@@ -786,7 +1806,6 @@
         document.getElementById('submit-exam-btn').style.display = 'none';
       }
 
-      // 如果练习模式下已答过，显示之前的答案结果
       if (alreadyAnswered && !isExamMode && currentQuestions[currentIndex]?.answer) {
         const isCorrect = currentQuestions[currentIndex].answer.toUpperCase() === previousAnswer?.toUpperCase();
         showAnswerFeedback(isCorrect, previousAnswer);
@@ -801,25 +1820,28 @@
         console.error('Question is undefined', q);
         return;
       }
-      // 记录答案（考试模式可以反复修改，直到点击下一题才确定）
       userAnswers[currentIndex] = value;
 
-      // 练习模式：立即判断对错（需要答案）
-      if (!isExamMode && q.answer) {
+      // 模拟考试模式：选择答案后立即更新答题卡
+      if (isExamMode && !answeredQuestions.has(currentIndex)) {
+        answeredQuestions.add(currentIndex);
+        showQuestion();
+        // 立即刷新答题卡显示
+        const answerCard = document.getElementById('answer-card');
+        if (answerCard) renderAnswerCard();
+      } else if (!isExamMode && q.answer) {
         answeredQuestions.add(currentIndex);
         const isCorrect = q.answer.toUpperCase() === value.toUpperCase();
 
         showQuestion();
         showAnswerFeedback(isCorrect, value);
 
-        // 记录错题
         if (!isCorrect) {
           if (!sessionWrongIds.includes(q.id)) {
             sessionWrongIds.push(q.id);
           }
         }
       } else {
-        // 考试模式或无答案时：只更新显示的已选答案，不标记为已确定
         showQuestion();
       }
     }
@@ -853,7 +1875,6 @@
         feedbackText.innerHTML = `正确答案：<strong>${correctLabel}</strong>（您选的是：${userLabel}）`;
       }
 
-      // 标记选项
       const optionsEl = document.getElementById('question-options');
       const lis = optionsEl.querySelectorAll('li');
       lis.forEach(li => li.classList.add('disabled'));
@@ -862,7 +1883,7 @@
         ? (q.answer === 'true' ? 0 : 1)
         : (q.answer.charCodeAt(0) - 65);
 
-      lis[correctIdx].classList.add('correct');
+      if (lis[correctIdx]) lis[correctIdx].classList.add('correct');
       if (!isCorrect) {
         const userIdx = q.type === 'true_false'
           ? (userAnswer === 'true' ? 0 : 1)
@@ -879,7 +1900,6 @@
     }
 
     function nextQuestion() {
-      // 考试模式：点击下一题时确定当前答案
       if (isExamMode && userAnswers[currentIndex]) {
         answeredQuestions.add(currentIndex);
       }
@@ -898,7 +1918,6 @@
         msg += `\n还有 ${unanswered} 题未作答。`;
       }
       if (confirm(msg)) {
-        // 交卷时将所有已答的题目标记为已确定
         for (let i = 0; i < currentQuestions.length; i++) {
           if (userAnswers[i]) {
             answeredQuestions.add(i);
@@ -914,10 +1933,9 @@
         examTimer = null;
       }
 
-      // 计算本地结果（用于练习模式）
       currentResults = [];
       let correct = 0;
-      sessionWrongIds = []; // 重置错题列表
+      sessionWrongIds = [];
 
       for (let i = 0; i < currentQuestions.length; i++) {
         const q = currentQuestions[i];
@@ -929,7 +1947,6 @@
           if (isCorrect) {
             correct++;
           } else {
-            // 记录错题ID
             if (!sessionWrongIds.includes(q.id)) {
               sessionWrongIds.push(q.id);
             }
@@ -950,7 +1967,6 @@
 
       let serverResult = null;
 
-      // 保存记录并获取服务器计算结果
       try {
         const res = await fetch(`${API_BASE}/exam/grading`, {
           method: 'POST',
@@ -977,14 +1993,11 @@
           console.error('Failed to parse response:', text);
         }
 
-        // 用服务器返回的结果更新正确数
         if (serverResult && serverResult.correctCount !== undefined) {
           correct = serverResult.correctCount;
         }
-        // 考试模式：用服务器返回的结果
         if (isExamMode && serverResult?.results) {
           currentResults = serverResult.results;
-          // 从服务器结果中提取错题ID
           sessionWrongIds = serverResult.results.filter(r => !r.isCorrect).map(r => r.questionId);
         }
       } catch (e) {
@@ -992,12 +2005,10 @@
       }
 
       const wrongCount = currentQuestions.length - correct;
-      // 计算本地分数作为备用
       const answeredCount = Object.values(userAnswers).filter(a => a).length;
       const localScore = answeredCount > 0 ? Math.round((correct / answeredCount) * 100) : 0;
       const finalScore = (serverResult && serverResult.score !== undefined) ? serverResult.score : localScore;
 
-      // 显示结果
       hideAllPages();
       showHeaderBackBtn(true);
       document.getElementById('result-page').style.display = 'block';
@@ -1062,9 +2073,7 @@
           <div class="q-result">
             <span class="your">您的答案: ${userAnswerLabel}</span>
             <span class="correct">正确答案: ${correctAnswerLabel}</span>
-            <span style="color: ${r.isCorrect ? '#4caf50' : '#f44336'}; font-weight: bold;">
-              ${r.isCorrect ? '✓ 正确' : '✗ 错误'}
-            </span>
+            <span class="status ${r.isCorrect ? 'correct' : 'wrong'}">${r.isCorrect ? '✓ 正确' : '✗ 错误'}</span>
           </div>
         `;
         listEl.appendChild(div);
@@ -1077,7 +2086,6 @@
       document.getElementById('history-page').style.display = 'block';
 
       try {
-        // 尝试获取用户统计数据
         let data;
         try {
           const res = await fetch(`${API_BASE}/user/${currentUserId}/statistics`);
@@ -1096,7 +2104,6 @@
         document.getElementById('exam-times').textContent = data.historySummary?.totalExamRecords || 0;
         document.getElementById('practice-times').textContent = data.historySummary?.totalPracticeRecords || 0;
 
-        // 获取用户历史记录
         let historyRes;
         try {
           historyRes = await fetch(`${API_BASE}/user/${currentUserId}/history?limit=50`);
@@ -1108,7 +2115,7 @@
 
         const listEl = document.getElementById('history-list');
         if (historyData.data.length === 0) {
-          listEl.innerHTML = '<div class="empty-state"><h3>暂无记录</h3><p>开始练习或考试后，这里会显示您的历史成绩</p></div>';
+          listEl.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><h3>暂无记录</h3><p>开始练习或考试后，这里会显示您的历史成绩</p></div>';
         } else {
           listEl.innerHTML = '';
           historyData.data.forEach(record => {
@@ -1140,7 +2147,6 @@
       document.getElementById('wrong-page').style.display = 'block';
 
       try {
-        // 获取用户历史记录
         let historyRes;
         try {
           historyRes = await fetch(`${API_BASE}/user/${currentUserId}/history?limit=100`);
@@ -1150,7 +2156,6 @@
         }
         const historyData = await historyRes.json();
 
-        // 收集所有错题ID
         let allWrongIds = [];
         historyData.data.forEach(record => {
           if (record.wrongQuestionIds && Array.isArray(record.wrongQuestionIds)) {
@@ -1158,19 +2163,17 @@
           }
         });
 
-        // 去重
         allWrongIds = [...new Set(allWrongIds)];
 
         document.getElementById('wrong-page-badge').textContent = allWrongIds.length;
 
         const listEl = document.getElementById('wrong-list');
         if (allWrongIds.length === 0) {
-          listEl.innerHTML = '<div class="empty-state"><h3>暂无错题</h3><p>做错的题目会自动收录到这里，方便您反复练习</p></div>';
+          listEl.innerHTML = '<div class="empty-state"><div class="empty-icon">📚</div><h3>暂无错题</h3><p>做错的题目会自动收录到这里，方便您反复练习</p></div>';
           document.getElementById('retry-wrong-btn').style.display = 'none';
         } else {
-          // 获取错题详情
           const wrongDetails = [];
-          for (const id of allWrongIds.slice(0, 20)) { // 最多显示20道
+          for (const id of allWrongIds.slice(0, 20)) {
             try {
               const qRes = await fetch(`${API_BASE}/questions/${id}`);
               if (qRes.ok) {
@@ -1191,7 +2194,7 @@
                 <h4>${idx + 1}. ${q.content.substring(0, 50)}...</h4>
                 <p>${q.type === 'true_false' ? '判断题' : '选择题'} | ${q.subject}</p>
               </div>
-              <div style="color: #f44336; font-size: 20px;">✗</div>
+              <div style="color: var(--color-error); font-size: 22px;">✗</div>
             `;
             listEl.appendChild(div);
           });
@@ -1204,7 +2207,6 @@
     }
 
     async function openWrongQuestion(q) {
-      // 用这道错题开始练习
       currentQuestions = [q];
       currentIndex = 0;
       userAnswers = {};
@@ -1224,21 +2226,17 @@
     }
 
     function retryWrong() {
-      // 用本次错题重新练习
       const wrongInSession = currentResults.filter(r => !r.isCorrect).map(r => r.questionId);
       if (wrongInSession.length === 0) {
         alert('本次没有错题');
         return;
       }
 
-      // 获取错题重新练习
       retryWithQuestionIds(wrongInSession);
     }
 
     function repracticeWrongQuestions() {
-      // 从当前session的错题列表重新练习
       if (sessionWrongIds.length === 0 && currentResults.length > 0) {
-        // 如果sessionWrongIds为空，可能是从结果页进入的，从currentResults提取错题ID
         const wrongIds = currentResults.filter(r => !r.isCorrect).map(r => r.questionId);
         if (wrongIds.length === 0) {
           alert('本次没有错题');
@@ -1252,12 +2250,10 @@
         return;
       }
 
-      // 用错题ID重新练习
       retryWithQuestionIds(sessionWrongIds);
     }
 
     async function retryAllWrong() {
-      // 获取所有错题重新练习
       try {
         let historyRes;
         try {
@@ -1289,12 +2285,12 @@
 
     async function retryWithQuestionIds(ids) {
       try {
-        // 逐个获取题目
         const questions = [];
         for (const id of ids) {
           const res = await fetch(`${API_BASE}/questions/${id}`);
           if (res.ok) {
             const q = await res.json();
+            // 重做错题时包含答案，立即显示对错
             questions.push({
               id: q.id,
               code: q.code,
@@ -1302,7 +2298,8 @@
               category: q.category,
               subject: q.subject,
               content: q.content,
-              options: q.options
+              options: q.options,
+              answer: q.answer
             });
           }
         }
